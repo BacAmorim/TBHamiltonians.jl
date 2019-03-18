@@ -2,8 +2,10 @@ module TBHamiltonians
 
 using StaticArrays, LinearAlgebra
 
-export
+export Orbital, Hopping, TBHamiltonian
+export dimension,  hopping_type, norbs
+export add_orbital!, add_hopping!
 
-include("")
+include("tbstructs.jl")
 
 end #module
