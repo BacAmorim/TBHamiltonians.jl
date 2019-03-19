@@ -23,7 +23,7 @@ end
 
 ## Add orbitals
 """
-    add_orbital!(sys::TBHamiltonian, pos::Vector, l::Int=0, m::Int=0)
+    add_orbital!(sys::TBHamiltonian, pos::Vector; l::Int=0, m::Int=0)
 
 Given a label, position (pos), angular momentum (l, m) adds an Orbital(pos, (l, m)) to the tight-binding TBHamiltonian
 """
@@ -34,7 +34,7 @@ function add_orbital!(sys::TBHamiltonian, pos::Vector; l::Int=0, m::Int=0)
         pos3[i] = convert(Float64, pos[i])
     end
 
-    add_orbital!(sys, Orbital(SVector{3}(pos3), (l, m)))
+    push!(sys.orbitals, Orbital(SVector{3}(pos3), (l, m)))
 end
 
 replacement_wf = Dict(
@@ -63,7 +63,7 @@ function add_orbital!(sys::TBHamiltonian, pos::Vector, wf::Symbol)
         pos3[i] = convert(Float64, pos[i])
     end
 
-    add_orbital!(sys, Orbital(SVector{3}(pos3), replacement_wf[wf]))
+    push!(sys.orbitals, Orbital(SVector{3}(pos3), replacement_wf[wf]))
 end
 
 
