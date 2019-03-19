@@ -16,7 +16,7 @@ function TBHamiltonian(A::Vector...; hoppingtype=Float64)
     
     basis = SMatrix{dim, dim, Float64}(hcat(A...))
 
-    return TBHamiltonian(basis, Orbital[], Hopping{length(A), hoptype}[], false)
+    return TBHamiltonian(basis, Orbital[], Hopping{length(A), hoppingtype}[], false)
 
 end
 
