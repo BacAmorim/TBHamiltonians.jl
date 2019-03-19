@@ -8,6 +8,6 @@ export add_orbital!, add_hopping!
 
 include("tbham_structs.jl")
 include("tbham_utils.jl")
-#include("tbham_builders.jl")
+include("tbham_builders.jl")
 
 end #module
