@@ -16,7 +16,7 @@ function TBHamiltonian(A::Vector...; hoppingtype=Float64)
     
     basis = SMatrix{dim, dim, Float64}(hcat(A...))
 
-    return TBHamiltonian(basis, Orbital[], Hopping{length(A), hoppingtype}[], false)
+    return TBHamiltonian(basis, Orbital[], Hopping{length(A), hoppingtype}[], [false])
 
 end
 
@@ -80,9 +80,9 @@ function add_hopping!(sys::TBHamiltonian, from::Int, to::Int, dir::Vector{Int}, 
         sdir[i] = dir[i]
     end
 
-    push!(sys.hoppings, Hopping(SVector{dimension(sys)}(sdir), 
-            from, to, 
-            convert(hopping_type(sys), val))
+    push!(sys.hoppings, 
+        Hopping(
+            from, to, SVector{dimension(sys)}(sdir), convert(hopping_type(sys), val))
         )
 end
 

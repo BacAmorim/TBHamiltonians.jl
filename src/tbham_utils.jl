@@ -7,6 +7,7 @@ Sorts the hoppings of the TBHamiltonian (sys.hoppings), such that they are order
 function sort_hoppings!(sys::TBHamiltonian)
 
     sort!(sys.hoppings, by = hop -> (hop.from, hop.to, hop.dir...))
+    sys.sorted[1] = true
 
 end
 

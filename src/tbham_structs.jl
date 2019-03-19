@@ -48,5 +48,5 @@ struct TBHamiltonian{D, T<:Number}
     basis::SMatrix{D, D, Float64}
     orbitals::Vector{Orbital}
     hoppings::Vector{Hopping{D, T}}
-    sorted::Bool
+    sorted::Vector{Bool}
 end
