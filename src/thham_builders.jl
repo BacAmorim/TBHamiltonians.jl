@@ -1,6 +1,6 @@
 # functions for construction of Hamiltonians
 
-
+#=
 ## Initialize Hamiltonian
 """
     TBHamiltonian(A::Vector...; hoppingtype=Float64)
@@ -20,7 +20,7 @@ function TBHamiltonian(A::Vector...; hoppingtype=Float64)
 
 end
 
-#=
+
 ## Add orbitals
 """
     add_orbital!(sys::TBHamiltonian, pos::Vector, l::Int=0, m::Int=0)
