@@ -1,1 +1,1 @@
-# build hamiltonian as a function of Bloch momentum
+# build hamiltonian as a function of Bloch momentum mais
