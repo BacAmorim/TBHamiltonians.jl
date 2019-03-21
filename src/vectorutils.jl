@@ -20,7 +20,7 @@ end
 
 Take the inner product of two vectors of unequal size. The longer vector is truncated to the size of the smaller one. 
 """
-function cdot(a::AbstractVector, b::AbsctractVector) 
+function cdot(a::AbstractVector, b::AbstractVector) 
     s = min(length(a), length(b))
     
     accu = a[1]*b[1]
