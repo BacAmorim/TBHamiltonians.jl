@@ -1,11 +1,11 @@
 ## utilities
 
 """
-    dimension(sys::BlochHamiltonian{D, F})  where {D, T}
+    dimension(sys::BlochHamiltonian{D, F})  where {D, F}
 
 Returns the spacial dimensional of a tight-binding Hamiltonian.
 """
-function dimension(sys::BlochHamiltonian{D, F})  where {D, T}
+function dimension(sys::BlochHamiltonian{D, F})  where {D, F}
     return D
 end
 
@@ -21,11 +21,11 @@ end
 
 ## Initialize Hamiltonian
 """
-    BlochHamiltonian(A, orbitals::Vector{Orbital}, F::Function)
+    BlochHamiltonian(A, orbitals::Vector{Orbital}, hamk!::Function)
 
 Given a vector of vector `A` = [a1, a2, ...], and  vector of `orbitals and a function `hamk!` , initializes a  BlochHamiltonian of dimension `D`, with no orbitals or hamiltonian function store
 """
-function BlochHamiltonian(A, orbitals::Vector{Orbital}, F::Function)
+function BlochHamiltonian(A, orbitals::Vector{Orbital}, hamk!::Function)
 
     for a in A
         @assert length(A)==length(a) "number of basis vectors and their dimensions must coincide"
@@ -53,5 +53,7 @@ function hamiltoniank(sys::BlochHamiltonian, k::AbstractVector)
     mat = zeros(Complex{Float64}, dim, dim)
 
     sys.hk!(mat, SVector{D}(k))
+
+    return mat
 
 end

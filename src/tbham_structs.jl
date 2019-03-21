@@ -63,7 +63,7 @@ end
 
 
 """
-    Hopping{D, T<:Number}
+    Hopping{D, T}
 
 Stores a hopping with amplitude of type `T` in a `D`-dimensional lattice.
 
@@ -73,7 +73,7 @@ Stores a hopping with amplitude of type `T` in a `D`-dimensional lattice.
 - 'dir::SVector{D, Int}': direction of the hopping (in units of Bravais basis vectors. 
 - 'val::T': value of hopping
 """
-struct Hopping{D, T<:Number}
+struct Hopping{D, T}
     from::Int
     to::Int
     dir::SVector{D, Int}
@@ -81,7 +81,7 @@ struct Hopping{D, T<:Number}
 end
 
 """
-    TBHamiltonian{D, T<:Number}
+    TBHamiltonian{D, T}
 
 Stores a tight-binding system define in real space for a `D`-dimensional lattice (embedded in 3D) with hoppings of type `T`
 
@@ -92,7 +92,7 @@ The tight-binsing system consists of:
 - 'hoppings::Vector{Hopping{D, T}': a list of hoppings (which includ intra- an intercell hoppings)
 - 'sorted::Bool': whether the list of hoppings is been sorted by (from, to). Use of sparce matrices requires sorting.
 """
-struct TBHamiltonian{D, T<:Number}
+struct TBHamiltonian{D, T}
     basis::SMatrix{D, D, Float64}
     orbitals::Vector{Orbital}
     hoppings::Vector{Hopping{D, T}}
