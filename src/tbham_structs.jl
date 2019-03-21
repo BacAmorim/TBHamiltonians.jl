@@ -14,6 +14,54 @@ struct Orbital
     lm::NTuple{2, Int}
 end
 
+
+"""
+    Orbital(pos::Vector; l::Int=0, m::Int=0)
+
+Initialized an orbital centered at `pos` of type (l, m)"
+"""
+function Orbital(pos::Vector; l::Int=0, m::Int=0)
+    
+    pos3 = zeros(Float64, 3)  # conver the position vector to a 3D vector
+    for i=1:min(3, length(pos))
+        pos3[i] = convert(Float64, pos[i])
+    end
+
+    return Orbital(SVector{3}(pos3), (l, m))
+end
+
+replacement_wf = Dict(
+    :s => (0, 0),
+    :px => (1, 1),
+    :py => (1, -1),
+    :pz => (1, 0),
+    :dxy => (2, -2),
+    :dx2y2 => (2, 2),
+    :dxz => (2, 1),
+    :dyz => (2, -1),
+    :dz2 => (2, 0)
+)
+
+"""
+    Orbital(pos::Vector, wf::Symbol)
+
+Initialized an orbital centered at `pos` of type `wf`. 
+Known types: `:s`, `:px`, `:py`, `:pz`, `:dxy`, `:dx2y2`, `:dxz`, `:dyz`, `:dz2`"
+"""
+function Orbital(pos::Vector, wf::Symbol)
+    
+    @assert wf in keys(replacement_wf) "Shorthand for wavefunction of known type. Available shorthands: `:s`, `:px`, `:py`,`:pz`, `:dxy`, `:dx2y2`, `:dxz`, `:dyz`, `:dz2`."
+
+    pos3 = zeros(Float64, 3)  # conver the position vector to a 3D vector
+    for i=1:min(3, length(pos))
+        pos3[i] = convert(Float64, pos[i])
+    end
+
+    return Orbital(pos, replacement_wf[:wf])
+end
+
+
+
 """
     Hopping{D, T<:Number}
 

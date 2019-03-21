@@ -21,6 +21,7 @@ function TBHamiltonian(A::Vector...; hoppingtype=Float64)
 end
 
 
+
 ## Add orbitals
 """
     add_orbital!(sys::TBHamiltonian, pos::Vector; l::Int=0, m::Int=0)
@@ -29,25 +30,10 @@ Given a label, position (pos), angular momentum (l, m) adds an Orbital(pos, (l, 
 """
 function add_orbital!(sys::TBHamiltonian, pos::Vector; l::Int=0, m::Int=0)
 
-    pos3 = zeros(Float64, 3)  # conver the position vector to a 3D vector
-    for i=1:min(3, length(pos))
-        pos3[i] = convert(Float64, pos[i])
-    end
 
-    push!(sys.orbitals, Orbital(SVector{3}(pos3), (l, m)))
+    push!(sys.orbitals, Orbital(pos, l=l, m=m)
 end
 
-replacement_wf = Dict(
-    :s => (0, 0),
-    :px => (1, 1),
-    :py => (1, -1),
-    :pz => (1, 0),
-    :dxy => (2, -2),
-    :dx2y2 => (2, 2),
-    :dxz => (2, 1),
-    :dyz => (2, -1),
-    :dz2 => (2, 0)
-)
 
 """
     add_orbital!(sys::TBHamiltonian, pos::Vector, wf::Symbol)
@@ -56,14 +42,8 @@ Given a label, position (pos), atomic wavefunction type adds an Orbital(pos, wf)
 """
 function add_orbital!(sys::TBHamiltonian, pos::Vector, wf::Symbol)
 
-    @assert wf in keys(replacement_wf) "Shorthand for wavefunction type unknown. Available shorthands: `:s`, `:px`, `:py`,`:pz`, `:dxy`, `:dx2y2`, `:dxz`, `:dyz`, `:dz2`."
 
-    pos3 = zeros(Float64, 3)  # conver the position vector to a 3D vector
-    for i=1:min(3, length(pos))
-        pos3[i] = convert(Float64, pos[i])
-    end
-
-    push!(sys.orbitals, Orbital(SVector{3}(pos3), replacement_wf[wf]))
+    push!(sys.orbitals, Orbital(pos, wf))
 end
 
 
