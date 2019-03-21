@@ -20,14 +20,14 @@ end
 
 Initialized an orbital centered at `pos` of type (l, m)"
 """
-function Orbital(pos::Vector; l::Int=0, m::Int=0)
+function Orbital(pos::Vector, lm=(0, 0))
     
     pos3 = zeros(Float64, 3)  # conver the position vector to a 3D vector
     for i=1:min(3, length(pos))
         pos3[i] = convert(Float64, pos[i])
     end
 
-    return Orbital(SVector{3}(pos3), (l, m))
+    return Orbital(SVector{3}(pos3), lm)
 end
 
 replacement_wf = Dict(
@@ -51,13 +51,8 @@ Known types: `:s`, `:px`, `:py`, `:pz`, `:dxy`, `:dx2y2`, `:dxz`, `:dyz`, `:dz2`
 function Orbital(pos::Vector, wf::Symbol)
     
     @assert wf in keys(replacement_wf) "Shorthand for wavefunction of known type. Available shorthands: `:s`, `:px`, `:py`,`:pz`, `:dxy`, `:dx2y2`, `:dxz`, `:dyz`, `:dz2`."
-
-    pos3 = zeros(Float64, 3)  # conver the position vector to a 3D vector
-    for i=1:min(3, length(pos))
-        pos3[i] = convert(Float64, pos[i])
-    end
-
-    return Orbital(pos, replacement_wf[:wf])
+    
+    return Orbital(pos, replacement_wf[wf])
 end
 
 
