@@ -31,7 +31,7 @@ Given a label, position (pos), angular momentum (l, m) adds an Orbital(pos, (l, 
 function add_orbital!(sys::TBHamiltonian, pos::Vector; l::Int=0, m::Int=0)
 
 
-    push!(sys.orbitals, Orbital(pos, l=l, m=m)
+    push!(sys.orbitals, Orbital(pos, l=l, m=m))
 end
 
 
