@@ -31,4 +31,7 @@ include("blochham_structs.jl")
 include("blochham_utils.jl")
 include("blochham_eval.jl")
 
+include("keigen_struct.jl")
+include("kspectral.jl")
+
 end #module
