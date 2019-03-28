@@ -16,21 +16,16 @@ end
 
 
 """
-    Orbital(pos::Vector; l::Int=0, m::Int=0)
+    Orbital(pos::Vector; lm=(0, 0))
 
 Initialized an orbital centered at `pos` of type (l, m)"
 """
 function Orbital(pos::Vector, lm=(0, 0))
-    
-    pos3 = zeros(Float64, 3)  # conver the position vector to a 3D vector
-    for i=1:min(3, length(pos))
-        pos3[i] = convert(Float64, pos[i])
-    end
 
-    return Orbital(SVector{3}(pos3), lm)
+    return Orbital(toSVector(pos, 3), lm)
 end
 
-replacement_wf = Dict(
+const replacement_wf = Dict(
     :s => (0, 0),
     :px => (1, 1),
     :py => (1, -1),
@@ -82,13 +77,13 @@ Stores a tight-binding system define in real space for a `D`-dimensional lattice
 
 ### Fields
 The tight-binsing system consists of:
-- 'basis::SMatrix{D, D, Float64}': the basis for a `D`-dimensional Bravais lattice. The basis vectors are stored as columns of the matrix basis, i. e. a1 = basis[:, 1]
+- 'latbasis::SMatrix{D, D, Float64}': the basis for a `D`-dimensional Bravais lattice. The basis vectors are stored as columns of the matrix basis, i. e. a1 = basis[:, 1]
 - 'orbitals::Vector{Orbital}': a list of orbitals within the unit cell
 - 'hoppings::Vector{Hopping{D, T}': a list of hoppings (which includ intra- an intercell hoppings)
 - 'sorted::Bool': whether the list of hoppings is been sorted by (from, to). Use of sparce matrices requires sorting.
 """
 struct TBHamiltonian{D, T}
-    basis::SMatrix{D, D, Float64}
+    latbasis::SMatrix{D, D, Float64}
     orbitals::Vector{Orbital}
     hoppings::Vector{Hopping{D, T}}
     sorted::Vector{Bool}

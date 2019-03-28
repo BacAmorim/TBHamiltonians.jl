@@ -14,9 +14,9 @@ function TBHamiltonian(A::Vector...; hoppingtype=Float64)
     end
     dim = length(A)
     
-    basis = SMatrix{dim, dim, Float64}(hcat(A...))
+    latbasis = SMatrix{dim, dim, Float64}(hcat(A...))
 
-    return TBHamiltonian(basis, Orbital[], Hopping{length(A), hoppingtype}[], [false])
+    return TBHamiltonian(latbasis, Orbital[], Hopping{length(A), hoppingtype}[], [false])
 
 end
 
@@ -28,10 +28,10 @@ end
 
 Given a label, position (pos), angular momentum (l, m) adds an Orbital(pos, (l, m)) to the tight-binding TBHamiltonian
 """
-function add_orbital!(sys::TBHamiltonian, pos::Vector; l::Int=0, m::Int=0)
+function add_orbital!(sys::TBHamiltonian, pos::Vector, lm=(0, 0))
 
 
-    push!(sys.orbitals, Orbital(pos, l=l, m=m))
+    push!(sys.orbitals, Orbital(pos, lm))
 end
 
 
@@ -55,14 +55,9 @@ Given a initial orbital index (from), final orbital (to), direction (dir) and a 
 """
 function add_hopping!(sys::TBHamiltonian, from::Int, to::Int, dir::Vector{Int}, val)
 
-    sdir = zeros(Int, dimension(sys)) # conver the direction vector to a 3D vector
-    for i=1:min(dimension(sys), length(dir))
-        sdir[i] = dir[i]
-    end
-
     push!(sys.hoppings, 
         Hopping(
-            from, to, SVector{dimension(sys)}(sdir), convert(hopping_type(sys), val))
+            from, to, toSVector(dir, dimension(sys)), convert(hopping_type(sys), val))
         )
 end
 
