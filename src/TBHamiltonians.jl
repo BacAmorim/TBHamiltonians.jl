@@ -11,6 +11,7 @@ export BlochHamiltonian
 export hamiltoniank, hamiltoniank!
 
 export KPath, KMesh
+export latticebasis, reciprocalbasis, spanlattice, addlattice
 
 export cdot, toSVector
 
@@ -20,12 +21,14 @@ include("tbham_structs.jl")
 include("tbham_utils.jl")
 include("tbham_builders.jl")
 include("vector_utils.jl")
-include("evalhamiltonian.jl")
+include("tbham_eval.jl")
 
 include("path_mesh.jl")
 include("path_mesh_utils.jl")
+include("lattice_utils.jl")
 
 include("blochham_structs.jl")
 include("blochham_builders.jl")
+include("blochham_eval.jl")
 
 end #module

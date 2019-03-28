@@ -9,14 +9,11 @@ Given a tuple of vectors a1, a2, ..., initializes a tight-binding system of dime
 """
 function TBHamiltonian(A::Vector...; hoppingtype=Float64)
 
-    for a in A
-        @assert length(A)==length(a) "number of basis vectors and their dimensions must coincide"
-    end
     dim = length(A)
     
     latbasis = SMatrix{dim, dim, Float64}(hcat(A...))
 
-    return TBHamiltonian(latbasis, Orbital[], Hopping{length(A), hoppingtype}[], [false])
+    return TBHamiltonian(latticebasis(A), Orbital[], Hopping{length(A), hoppingtype}[], [false])
 
 end
 

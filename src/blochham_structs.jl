@@ -11,8 +11,8 @@ The tight-binsing system consists of:
 - 'orbitals::Vector{Orbital}': a list of orbitals within the unit cell
 - 'hk!::F': The Bloch Hamiltonian: a function that for a given `k` acts on a matrix `mat` and stores there H(k)
 """
-struct BlochHamiltonian{D, F<:Function}
+struct BlochHamiltonian{D}
     basis::SMatrix{D, D, Float64}
     orbitals::Vector{Orbital}
-    hk!::F
+    hk!::Function
 end
