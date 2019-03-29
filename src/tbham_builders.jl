@@ -13,7 +13,11 @@ function TBHamiltonian(A::Vector...; hoppingtype=Float64)
     
     latbasis = SMatrix{dim, dim, Float64}(hcat(A...))
 
-    return TBHamiltonian(latticebasis(A), Orbital[], Hopping{length(A), hoppingtype}[], [false])
+    return TBHamiltonian(latticebasis(A...), 
+                        Orbital[], 
+                        Hopping{length(A), hoppingtype}[], 
+                        [false]
+                        )
 
 end
 

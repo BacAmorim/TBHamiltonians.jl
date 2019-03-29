@@ -1,6 +1,7 @@
 module TBHamiltonians
 
-using StaticArrays, OffsetArrays, LinearAlgebra, SparseArrays
+using StaticArrays, OffsetArrays, SparseArrays
+using Distributed, LinearAlgebra
 
 export Orbital, Hopping, TBHamiltonian
 export sort_hoppings!, dimension, hopping_type, norbs
@@ -10,7 +11,9 @@ export BlochHamiltonian
 
 export hamiltoniank, hamiltoniank!
 
-export KPath, KMesh
+export KPath, KMesh, path, mpmesh
+export EigenStates, KEigenStates, KEigenAmplitudes, KBandStates, KBandAmplitudes
+
 export latticebasis, reciprocalbasis, spanlattice, addlattice
 
 export cdot, toSVector

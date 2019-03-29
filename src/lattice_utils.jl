@@ -6,7 +6,7 @@ Given a tuple of basis vectors `A = (a1,  a2, ...)` returns a SMatrix with the v
 function latticebasis(A::Vector...)
     dim = length(A)
     for ai in A
-        @assert length(a) == dim "number of basis vectors, must coincide with their dimension"
+        @assert length(ai) == dim "number of basis vectors, must coincide with their dimension"
     end
     
     return SMatrix{dim, dim}(hcat(A...))

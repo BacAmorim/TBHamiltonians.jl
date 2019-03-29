@@ -17,7 +17,7 @@ function hamiltoniank_full!(mat::AbstractMatrix, sys::TBHamiltonian{D, T1}, k::S
 
         if (i, j) == (hop.to, hop.from)
             # while from and to are the same accumulate sum_n h^{i,j}_{n} e^{ikn}
-            phase = cdot(k, sys.basis*hop.dir) + cdot(k, sys.orbitals[hop.to].pos - sys.orbitals[hop.from].pos) 
+            phase = cdot(k, sys.latbasis*hop.dir) + cdot(k, sys.orbitals[hop.to].pos - sys.orbitals[hop.from].pos) 
 
             accu += hop.val*exp(-1im*phase)
 
@@ -26,7 +26,7 @@ function hamiltoniank_full!(mat::AbstractMatrix, sys::TBHamiltonian{D, T1}, k::S
             mat[i, j] = accu
 
             # reset accumulator
-            phase = cdot(k, sys.basis*hop.dir) + cdot(k, sys.orbitals[hop.to].pos - sys.orbitals[hop.from].pos) 
+            phase = cdot(k, sys.latbasis*hop.dir) + cdot(k, sys.orbitals[hop.to].pos - sys.orbitals[hop.from].pos) 
 
             accu = hop.val*exp(-1im*phase)
 
@@ -84,7 +84,7 @@ function hamiltoniank_sparse(sys::TBHamiltonian{D, T1}, k::SVector{D, T2}) where
 
         if (i, j) == (hop.to, hop.from)
             # while from and to are the same accumulate sum_n h^{i,j}_{n} e^{ikn}
-            phase = cdot(k, sys.basis*hop.dir) + cdot(k, sys.orbitals[hop.to].pos - sys.orbitals[hop.from].pos) 
+            phase = cdot(k, sys.latbasis*hop.dir) + cdot(k, sys.orbitals[hop.to].pos - sys.orbitals[hop.from].pos) 
 
             accu += hop.val*exp(-1im*phase)
 
@@ -95,7 +95,7 @@ function hamiltoniank_sparse(sys::TBHamiltonian{D, T1}, k::SVector{D, T2}) where
             push!(V, accu)
 
             # reset accumulator
-            phase = cdot(k, sys.basis*hop.dir) + cdot(k, sys.orbitals[hop.to].pos - sys.orbitals[hop.from].pos) 
+            phase = cdot(k, sys.latbasis*hop.dir) + cdot(k, sys.orbitals[hop.to].pos - sys.orbitals[hop.from].pos) 
         
             accu = hop.val*exp(-1im*phase)
 
