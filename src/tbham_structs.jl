@@ -47,7 +47,7 @@ function Orbital(pos::Vector, wf::Symbol)
     
     @assert wf in keys(replacement_wf) "Shorthand for wavefunction of known type. Available shorthands: `:s`, `:px`, `:py`,`:pz`, `:dxy`, `:dx2y2`, `:dxz`, `:dyz`, `:dz2`."
     
-    return Orbital(pos, replacement_wf[wf])
+    return Orbital(toSVector(pos, 3), replacement_wf[wf])
 end
 
 

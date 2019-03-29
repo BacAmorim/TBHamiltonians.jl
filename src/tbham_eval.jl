@@ -143,7 +143,7 @@ function hamiltoniank(sys::TBHamiltonian{D, T}, k::AbstractVector; sparse=false)
     @assert length(k) == D "length of k vector much be the same as the dimensionality of the system"
     @assert sys.sorted[1] "hoppings of the Hamiltonian must be sorted"
     
-    return hamiltoniank(sys, k, sparse=sparse)
+    return hamiltoniank(sys, toSVector(k), sparse=sparse)
 end
 
 
@@ -156,6 +156,6 @@ function hamiltoniank!(mat::AbstractMatrix, sys::TBHamiltonian{D, T}, k::Abstrac
     @assert length(k) == D "length of k vector much be the same as the dimensionality of the system"
     @assert sys.sorted[1] "hoppings of the Hamiltonian must be sorted"
 
-    hamiltoniank_full!(mat, sys, SVector{D}(k))
+    hamiltoniank_full!(mat, sys, toSVector(k))
 
 end

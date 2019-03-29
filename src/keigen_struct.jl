@@ -21,7 +21,7 @@ struct KBandStates{D, T}
     energies::Vector{Vector{Float64}}
 end
 
-struct KBandAmplitudes{D, T, N}
+struct  KBandAmplitudes{D, T, N}
     kpath::KPath{D}
     amplitudes::Vector{Array{N, T}}
     energies::Vector{Vector{Float64}}

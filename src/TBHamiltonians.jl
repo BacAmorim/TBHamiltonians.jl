@@ -3,21 +3,22 @@ module TBHamiltonians
 using StaticArrays, OffsetArrays, SparseArrays
 using Distributed, LinearAlgebra
 
+
 export Orbital, Hopping, TBHamiltonian
 export sort_hoppings!, dimension, hopping_type, norbs
 export add_orbital!, add_hopping!
 
-export BlochHamiltonian
+export BlochHamiltonian, BlochHamiltonian_noF
 
 export hamiltoniank, hamiltoniank!
 
 export KPath, KMesh, path, mpmesh
 export EigenStates, KEigenStates, KEigenAmplitudes, KBandStates, KBandAmplitudes
 
+export bands_full
+
 export latticebasis, reciprocalbasis, spanlattice, addlattice
-
 export cdot, toSVector
-
 
 
 include("tbham_structs.jl")
