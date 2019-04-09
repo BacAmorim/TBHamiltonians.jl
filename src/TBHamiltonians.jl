@@ -2,6 +2,7 @@ module TBHamiltonians
 
 using StaticArrays, OffsetArrays, SparseArrays
 using Distributed, LinearAlgebra
+using NearestNeighbors
 
 
 export Orbital, Hopping, TBHamiltonian
@@ -20,22 +21,28 @@ export bands_full
 export latticebasis, reciprocalbasis, spanlattice, addlattice
 export cdot, toSVector
 
+include("path_mesh_structs.jl")
+include("keigen_structs.jl")
+
+
+include("path_mesh_utils.jl")
+include("vector_utils.jl")
+include("lattice_utils.jl")
+
 
 include("tbham_structs.jl")
 include("tbham_utils.jl")
 include("tbham_builders.jl")
 include("tbham_eval.jl")
 
-include("vector_utils.jl")
-include("lattice_utils.jl")
-include("path_mesh.jl")
-include("path_mesh_utils.jl")
 
 include("blochham_structs.jl")
 include("blochham_utils.jl")
 include("blochham_eval.jl")
 
-include("keigen_struct.jl")
+
 include("tbham_kspectral.jl")
+
+include("presets.jl")
 
 end #module

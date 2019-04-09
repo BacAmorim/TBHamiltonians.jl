@@ -7,7 +7,7 @@ The hoppings of the Hamiltonian must be sorted
 """
 function hamiltoniank_full!(mat::AbstractMatrix, sys::TBHamiltonian{D, T1}, k::SVector{D, T2}) where {D, T1<:Number, T2<:Number}
 
-    @assert size(mat) == (D, D)
+    @assert size(mat) == (norbs(sys), norbs(sys))
 
     i, j = sys.hoppings[1].to, sys.hoppings[1].from
     accu = 0.0im

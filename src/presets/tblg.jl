@@ -1,5 +1,17 @@
-function R2d(theta) = SMatrix{2, 2}([cos(theta) -sin(theta); sin(theta) cos(theta)])
+"""
+    R2d(theta)
 
+Two-dimensional rotation matrix by an angle `theta`. 
+"""
+function R2d(theta) 
+    SMatrix{2, 2}([cos(theta) -sin(theta); sin(theta) cos(theta)])
+end
+
+"""
+    tblg_commensurate_angle(m, r)
+
+Returns the commensurate angle for a commensurate twisted bilayer graphene structure labelled by co-prime integers `m` and `r`, according to the notation of PRB 86, 155449 (2012) [arXiv:1202.1088].
+"""
 function tblg_commensurate_angle(m, r)
 
     if gcd(m, r) != 1
@@ -10,7 +22,11 @@ function tblg_commensurate_angle(m, r)
     return acos((3*m^2 + 3*m*r + r^2/2)/(3*m^2 + 3*m*r + r^2))
 end
 
+"""
+    tblg_commensurate_basis(m, r, a0)
 
+Returns the Bravais basis for a commensurate (m, r) twisted bilayer graphene structure. `a0` is the lattice parameter of an isolated graphene layer.
+"""
 function tblg_commensurate_basis(m, r, a0)
 
     a1 = a0*SVector(0.5, sqrt(3)/2)
@@ -29,6 +45,11 @@ function tblg_commensurate_basis(m, r, a0)
 
 end
 
+"""
+    tblg_commensurate_number_atoms(m, r)
+
+Number of total carbon atoms in a unit cell of a commensurate (m, r) twisted bilayer graphene structure.
+"""
 function tblg_commensurate_number_atoms(m, r)
 
     if gcd(r, 3) == 1
@@ -39,9 +60,23 @@ function tblg_commensurate_number_atoms(m, r)
 
 end
 
-function tblg_commensurate_carbon_positions(m, r, a0)
+"""
+    tblg_commensurate_carbon_positions(m, r, a0)
 
-    @assert gcd(m, r) ==1 "m and r must be coprimes"
+Determines the position of the carbon atoms inside a unit cell of a commensurate (m, r) twisted bilayer graphene structure. `a0` is the lattice parameter of a single layer graphene. The functions returns as a tuple:
+θ, Natls, WZ, [A1, A2], [a1bot, a2bot], [a1top, a2top], [listAbot, listBbot, listAtop, listBtop]
+where:
+- θ is the commensurate twist angle,
+- Natls is number of carbon atoms per layer, per sublattice in the unit cell, 
+- WZ is a vector of positions, deliminting the Wigner-Seitz unit cell of the tBLG structure,
+- [A1, A2] is the Bravais basis of the commensurate structure 
+- [a1bot, a2bot] is the Bravais basis of the isolated bottom layer
+- [a1top, a2top] is the Bravais basis of the isolated top layer
+- [listAbot, listBbot, listAtop, listBtop] constains the position of the atoms in each layer and sublattice. 
+"""
+function tblg_commensurate_carbon_positions(m::Int, r::Int, a0)
+
+    # @assert gcd(m, r) == 1 "m and r must be coprimes"
 
     θ = tblg_commensurate_angle(m, r)
     Natls =div(tblg_commensurate_number_atoms(m, r), 4)
@@ -64,20 +99,20 @@ function tblg_commensurate_carbon_positions(m, r, a0)
     # bottom layer basis vectors
     a1bot = R2d(pi/2-α)*a1
     a2bot = R2d(pi/2-α)*a2
-    τAbot = R2d(pi/2-α)*[0.0, 0.0]
-    τBbot = R2d(pi/2-α)*[0.0, -a0/sqrt(3)]
+    τAbot = R2d(pi/2-α)*SVector(0.0, 0.0)
+    τBbot = R2d(pi/2-α)*SVector(0.0, -a0/sqrt(3))
 
-    # bottom layer basis vectors
+    # top layer basis vectors
     a1top = R2d(θ + pi/2 - α)*a1
     a2top = R2d(θ + pi/2 - α)*a2
     τAtop = R2d(θ + pi/2-α)*SVector(0.0, 0.0)
     τBtop = R2d(θ + pi/2-α)*SVector(0.0, a0/sqrt(3))
 
     N = ceil(Int, norm(A1)/a0)
-    listAbot = SVector{Float64}[]
-    listBbot = SVector{Float64}[]
-    listAtop = SVector{Float64}[]
-    listBtop = SVector{Float64}[]
+    listAbot = SVector{2, Float64}[]
+    listBbot = SVector{2, Float64}[]
+    listAtop = SVector{2, Float64}[]
+    listBtop = SVector{2, Float64}[]
 
     for n=-N:N, m=-N:N
         pbot = n*a1bot + m*a2bot
@@ -113,8 +148,39 @@ function tblg_commensurate_carbon_positions(m, r, a0)
 end
 
 
+"""
+    Vinter_tblg_sk(x; Vpp0 = -2.7, Vpps0 = 0.48, a0 = 2.46, d = 3.35, r0 = 0.45264)
 
-function tblg_commensurate_build(m, r, a0, d, t, Vinter::Function, hoprange)
+Slater-Koster parametrization of the interlayer hopping in twisted bilayer graphene as a function of the in-plane separation `x` (a vector).
+"""
+function Vinter_tblg_sk(x; Vppp0 = -2.7, Vpps0 = 0.48, a0 = 2.46, d = 3.35, r0 = 0.45264)
+
+    r = norm(x)
+
+    return Vpps0*d^2/(r^2+d^2)*exp(-(sqrt(r^2+d^2)-d)/r0) + Vppp0*r^2/(r^2+d^2)*exp(-(sqrt(r^2+d^2)-a0/sqrt(3))/r0)
+
+end
+
+
+"""
+    tblg_commensurate_build(m, r, a0, d, t, hoprange, Vinter::Function=Vinter_tblg_sk)
+
+Builds a TBHamiltonian system for a commensurate (m, r) twisted bilayer graphene structure. The remaining arguments are:
+- `a0` is the lattice parameter of single layer graphene;
+- `d` is the interlayer seperation;
+- `t` is the nearest-neighbour in-plane hopping;
+- `hoprange` is a distance cutoff for the interlayer hoppings;
+- `Vinter` is a function parametrizing the interlayer hopping as a function of the in-plane seperation.
+
+It resturns: tblg, theta, Napl, WZ, abot, atop; where:
+- `tblg`, is the TBHamiltonian struct;
+- `theta`, is the twist angle (in radians);
+- `Napl`, is the number of atoms per layer and per sublattice in the unit cell;
+- `WZ`, are the vertices of the Wigner-Seitz unit cell;
+- `abot`, is the Bravais basis of the botton layer;
+- `atop`, is the Bravais basis of the top layer.
+"""
+function tblg_commensurate_build(m, r, a0, d, t, hoprange, Vinter::Function=Vinter_tblg_sk)
 
     theta, Napl, WZ, A, abot, atop, carbon = tblg_commensurate_carbon_positions(m, r, a0)
 

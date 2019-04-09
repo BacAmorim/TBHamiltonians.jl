@@ -20,7 +20,7 @@ end
 
 Initialized an orbital centered at `pos` of type (l, m)"
 """
-function Orbital(pos::Vector, lm=(0, 0))
+function Orbital(pos::AbstractVector, lm=(0, 0))
 
     return Orbital(toSVector(pos, 3), lm)
 end
@@ -38,12 +38,12 @@ const replacement_wf = Dict(
 )
 
 """
-    Orbital(pos::Vector, wf::Symbol)
+    Orbital(pos::AbstractVector, wf::Symbol)
 
 Initialized an orbital centered at `pos` of type `wf`. 
 Known types: `:s`, `:px`, `:py`, `:pz`, `:dxy`, `:dx2y2`, `:dxz`, `:dyz`, `:dz2`"
 """
-function Orbital(pos::Vector, wf::Symbol)
+function Orbital(pos::AbstractVector, wf::Symbol)
     
     @assert wf in keys(replacement_wf) "Shorthand for wavefunction of known type. Available shorthands: `:s`, `:px`, `:py`,`:pz`, `:dxy`, `:dx2y2`, `:dxz`, `:dyz`, `:dz2`."
     

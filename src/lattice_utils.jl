@@ -1,9 +1,9 @@
 """
-    latticebasis(A::Vector...)
+    latticebasis(A::AbstractVector...)
 
 Given a tuple of basis vectors `A = (a1,  a2, ...)` returns a SMatrix with the vector basis as columns.
 """
-function latticebasis(A::Vector...)
+function latticebasis(A::AbstractVector...)
     dim = length(A)
     for ai in A
         @assert length(ai) == dim "number of basis vectors, must coincide with their dimension"
