@@ -1,7 +1,7 @@
 module TBHamiltonians
 
 using StaticArrays, OffsetArrays, SparseArrays
-using Distributed, LinearAlgebra
+using Distributed, LinearAlgebra, Arpack
 using NearestNeighbors
 
 
@@ -16,7 +16,7 @@ export hamiltoniank, hamiltoniank!
 export KPath, KMesh, path, mpmesh
 export EigenStates, KEigenStates, KEigenAmplitudes, KBandStates, KBandAmplitudes
 
-export bands_full
+export bands_full, bands_sparse
 
 export latticebasis, reciprocalbasis, spanlattice, addlattice
 export cdot, toSVector
