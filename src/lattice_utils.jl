@@ -37,7 +37,7 @@ function spanlattice(B::SMatrix, cutoff::Float64)
     
     for I in itr
         
-        pt = B*SVector(I...)
+        pt = B*SVector{dim}(I...)
         if norm(pt) <= cutoff
             push!(list, pt)
         end
