@@ -1,3 +1,8 @@
+authors = ["Bruno Amorim <amorim.bac@gmail.com>"]
+name = "TBHamiltonians"
+uuid = "97828c3c-5b9a-11e9-3b3a-a15a2d1acb55"
+version = "0.1.0"
+
 [deps]
 Arpack = "7d9fca2a-8960-54d3-9f78-7d1dccf2cb97"
 Distributed = "8ba89e20-285c-5b6f-9357-94700520ee1b"
