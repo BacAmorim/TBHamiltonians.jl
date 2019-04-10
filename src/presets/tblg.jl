@@ -149,7 +149,7 @@ end
 
 
 """
-    Vinter_tblg_sk(x; Vpp0 = -2.7, Vpps0 = 0.48, a0 = 2.46, d = 3.35, r0 = 0.45264)
+    Vinter_tblg_sk(x; Vppp0 = -2.7, Vpps0 = 0.48, a0 = 2.46, d = 3.35, r0 = 0.45264)
 
 Slater-Koster parametrization of the interlayer hopping in twisted bilayer graphene as a function of the in-plane separation `x` (a vector).
 """
